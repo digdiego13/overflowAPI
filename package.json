@@ -1,0 +1,50 @@
+{
+  "name": "mira-back-end",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test npx jest -i",
+    "test:watch": "NODE_ENV=test npx jest --watchAll",
+    "start:dev": "NODE_ENV=dev npx nodemon server.js",
+    "start": "NODE_ENV=prod npx nodemon server.js",
+    "deploy": "git push heroku"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
+    "babel-jest": "^27.3.1",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dayjs": "^1.10.7",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "faker": "^5.5.3",
+    "jest": "^27.3.1",
+    "joi": "^17.4.2",
+    "ntl": "^5.1.0",
+    "pg": "^8.7.1",
+    "supertest": "^6.1.6",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.27.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "7.0.4",
+    "prettier": "2.4.1"
+  },
+  "directories": {
+    "test": "tests"
+  }
+}
