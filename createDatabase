@@ -1,0 +1,34 @@
+CREATE TABLE "users" (
+	"id" serial NOT NULL,
+	"name" varchar(255) NOT NULL,
+	"class" varchar(255) NOT NULL,
+	"token" varchar(255) NOT NULL,
+	CONSTRAINT "users_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+CREATE TABLE "questions" (
+	"id" serial NOT NULL,
+	"question" varchar(255) NOT NULL,
+	"student" varchar(255) NOT NULL,
+	"class" varchar(255) NOT NULL,
+	"tags" varchar(255) NOT NULL,
+	"answered" varchar(255) NOT NULL,
+	"submit_at" DATE NOT NULL,
+	"submit_at_time" TIME,
+	"answered_at" DATE,
+	"answered_by" varchar(255),
+	"answer" varchar(255),
+	CONSTRAINT "questions_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+
+
+
