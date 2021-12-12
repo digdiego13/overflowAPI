@@ -11,14 +11,14 @@ let connectionData = {
   database: process.env.DB_DATABASE,
 };
 
-if (process.env.NODE_ENV === 'prod') {
-  connectionData = {
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  };
-}
+// if (process.env.NODE_ENV === 'prod') {
+//   connectionData = {
+//     connectionString: process.env.DATABASE_URL,
+//     ssl: {
+//       rejectUnauthorized: false,
+//     },
+//   };
+// }
 
 const connection = new Pool(connectionData);
 

@@ -1,10 +1,16 @@
 
 interface User {
     name: string,
-    class: string
+    classroom: string,
+    token?: string
 }
 
+interface UserDB extends User {
+    id: number,
+    
+}
 
 export {
-    User
+    User,
+    UserDB
 }
