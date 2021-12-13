@@ -14,13 +14,12 @@ CREATE TABLE "questions" (
 	"id" serial NOT NULL,
 	"question" varchar(255) NOT NULL,
 	"student" varchar(255) NOT NULL,
-	"class" varchar(255) NOT NULL,
+	"classroom" varchar(255) NOT NULL,
 	"tags" varchar(255) NOT NULL,
 	"answered" varchar(255) NOT NULL,
-	"submit_at" DATE NOT NULL,
-	"submit_at_time" TIME,
-	"answered_at" DATE,
-	"answered_by" varchar(255),
+	"submitAt" DATE NOT NULL,
+	"answeredAt" DATE,
+	"answeredBy" varchar(255),
 	"answer" varchar(255),
 	CONSTRAINT "questions_pk" PRIMARY KEY ("id")
 ) WITH (

@@ -1,24 +1,26 @@
 import { Request, Response } from 'express';
-import { User } from './interfaces'
+import { User } from '../../interfaces/userInterfaces'
 import signUpSchema from '../../schemas/signUpSchema'
 import * as userServices from '../../services/userServices'
 import ConflictError from '../../errors/conflictError';
 import httpStatusCode from '../../enums/httpStatusCode';
 async function signUp(req: Request, res: Response) {
     
-    const user: User = req.body;
-    const isCorrectBody = signUpSchema.validate(user);
+    const {name, classroom}: User = req.body;
+    const isCorrectBody = signUpSchema.validate(req.body);
     if (isCorrectBody.error) {
-        return res.status(400).send(`${isCorrectBody.error.details[0].message}`);
+        return res.status(439).send(`${isCorrectBody.error.details[0].message}`);
     }
     try {
-       const userToken: string =  await userServices.postUser(user);
-        res.status(201).send(userToken);
+        console.log("chegou no controller")
+       const userToken: string =  await userServices.postUser({name, classroom});
+        return res.status(201).send(userToken);
     }
-    catch (error) {
-        if (error instanceof ConflictError) {
-            return res.sendStatus(httpStatusCode.CONFLICT);
+    catch (error: any) {
+        if (error.name === "ConflictError") {
+            return res.status(httpStatusCode.CONFLICT).send(error.message);
         }
+        return res.sendStatus(httpStatusCode.SERVER_ERROR)
     }
 }
 

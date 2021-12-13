@@ -1,18 +1,20 @@
-import { User, UserDB } from "../controllers/userController/interfaces";
+import { User, UserDB } from "../interfaces/userInterfaces";
 import connection from "../database/database";
 
 
-async function selectUser(user:User): Promise<UserDB> {
+async function selectUser({name, classroom}: User): Promise<UserDB> {
+    console.log("CHEH")
     const selectedUser = await connection.query(`
-    SELECT * FROM users WHERE name = $1 AND class = $2
-    `, [user.name, user.classroom])
+    SELECT * FROM users WHERE name = $1 AND classroom = $2
+    `, [name, classroom]);
+    console.log(selectedUser.rows[0])
     return selectedUser.rows[0];
 }
 
-async function insertUser(user:User): Promise<UserDB> {
+async function insertUser({name, classroom, token}:User): Promise<UserDB> {
     const newUser = await connection.query(`
-    INSERT INTO users (name, class, token) VALUES ($1, $2, $3) RETURNING *;
-    `, [user.name, user.classroom, user.token])
+    INSERT INTO users (name, classroom, token) VALUES ($1, $2, $3) RETURNING *;
+    `, [name, classroom, token])
     return newUser.rows[0];
 }
 
