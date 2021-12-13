@@ -3,7 +3,6 @@ import connection from "../database/database";
 
 
 async function selectUser({name, classroom}: User): Promise<UserDB> {
-    console.log("CHEH")
     const selectedUser = await connection.query(`
     SELECT * FROM users WHERE name = $1 AND classroom = $2
     `, [name, classroom]);
@@ -18,8 +17,17 @@ async function insertUser({name, classroom, token}:User): Promise<UserDB> {
     return newUser.rows[0];
 }
 
+async function selectUserByToken({token}:{token: string}) {
+    const user = await connection.query(`
+    SELECT * FROM users WHERE token=$1
+    `, [token]);
+
+    return user.rows[0];
+}
+
 
 export {
     selectUser,
-    insertUser
+    insertUser,
+    selectUserByToken
 }

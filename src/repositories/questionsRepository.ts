@@ -1,7 +1,7 @@
 import connection from '../database/database'
-import { Question, QuestionDB } from '../interfaces/questionsInterfaces'
+import { Question, QuestionAnswer, QuestionDB } from '../interfaces/questionsInterfaces'
 import dayjs from 'dayjs'
-import questionSchema from '../schemas/questionSchema'
+import { string } from 'joi'
 
 async function selectQuestion({ question, classroom, student }: Question): Promise<QuestionDB> {
     console.log("Chgou no rep")
@@ -13,7 +13,6 @@ async function selectQuestion({ question, classroom, student }: Question): Promi
 
 async function InsertQuestion({ question, classroom, student, tags }: Question): Promise<QuestionDB> {
     const today = dayjs().format('YYYY/MM/DD');
-    console.log(today)
     const questionInfo = await connection.query(`
     INSERT INTO questions (question, classroom, student, tags, "submitAt", answered) VALUES ($1, $2, $3, $4, $5, $6) RETURNING * ;
     `, [question, classroom, student, tags, today, false])
@@ -34,12 +33,24 @@ async function selectNotAnswered() {
     `)
 
     return questionsList.rows;
-    
+}
+
+async function answerQuestion({ questionId, answer, userName }: QuestionAnswer): Promise<{status: string}> {
+    const today = dayjs().format('YYYY/MM/DD');
+    console.log({questionId, answer, userName})
+    await connection.query(`
+    UPDATE questions set answered = 'true', "answeredAt" = $1, "answeredBy" = $2, answer = $3 WHERE id = $4;
+    `, [today, userName, answer, questionId]);
+
+    console.log("passou da query")
+
+    return { status: 'ok' };
 }
 
 export {
     selectQuestion,
     InsertQuestion,
     selectQuestionById,
-    selectNotAnswered
+    selectNotAnswered,
+    answerQuestion
 }

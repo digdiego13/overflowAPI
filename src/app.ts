@@ -11,6 +11,7 @@ app.post('/users', signUp)
 app.post('/questions', questionController.postQuestion);
 app.get('/questions/:id', questionController.getQuestions)
 app.get('/questions', questionController.getNotAnswered)
+app.post('/questions/:id', questionController.postQuestionAnswer)
 //app.use(userRouter);
 
 export default app;

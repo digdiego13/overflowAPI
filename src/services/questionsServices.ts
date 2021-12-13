@@ -1,7 +1,10 @@
+import { boolean } from "joi";
+import connection from "../database/database";
 import ConflictError from "../errors/conflictError";
 import NotFoundError from "../errors/notFoundError";
-import { Question } from "../interfaces/questionsInterfaces";
+import { Question, QuestionAnswer } from "../interfaces/questionsInterfaces";
 import * as questionRepository from '../repositories/questionsRepository'
+import * as userRepository from '../repositories/userRepository'
 
 
 async function postQuestion({question, student, classroom, tags}:Question): Promise<number> {
@@ -18,10 +21,10 @@ async function selectQuestionById(id:number) {
     const question = await questionRepository.selectQuestionById(id);
 
   if (!question) {
-    throw new NotFoundError();
+    throw new NotFoundError("Question not found");
   }
     delete question.id;
-    if (!question.answered) {
+    if (question.answered === 'true') {
     return question;
     }
     delete question.answeredAt;
@@ -35,14 +38,36 @@ async function selectNotAnswered() {
   
   const questionsNotAnswered = await questionRepository.selectNotAnswered();
   if (questionsNotAnswered.length === 0) {
-      throw new NotFoundError();
+      throw new NotFoundError(" Question not found");
   }
   return questionsNotAnswered;
 
 }
 
+async function postQuestionAnswer({answer, questionId, token}: QuestionAnswer): Promise<string> {
+  
+  const chosenQuestion = await questionRepository.selectQuestionById(questionId);
+
+  console.log(chosenQuestion)
+  if (!chosenQuestion) {
+    throw new NotFoundError("question Not found");
+  }
+  if (chosenQuestion.answered === "true") {
+    throw new ConflictError("this question is already aswered");
+  }
+  const user = await userRepository.selectUserByToken({ token });
+  console.log(Boolean(user))
+  if (!user) {
+    throw new NotFoundError("User not found");
+  }
+  console.log("passou do if")
+  const answerQuestion = await questionRepository.answerQuestion({ questionId, answer, userName: user.name });
+  return "question answered";
+}
+
 export {
     postQuestion,
   selectQuestionById,
-    selectNotAnswered
+  selectNotAnswered,
+    postQuestionAnswer
 }

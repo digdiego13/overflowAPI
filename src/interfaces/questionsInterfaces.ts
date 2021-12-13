@@ -8,14 +8,22 @@ interface Question {
 
 interface QuestionDB extends Question {
   id: number,
-  answered: boolean,
+  answered: string,
   submitAt: string,
   answeredAt?: string,
   answeredBy?: string,
   answer?: string
 }
 
+interface QuestionAnswer {
+  answer: string,
+  questionId: number,
+  token?: string,
+  userName?: string
+}
+
 export {
     Question,
-    QuestionDB
+  QuestionDB,
+    QuestionAnswer
 }
