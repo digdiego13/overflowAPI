@@ -31,7 +31,18 @@ async function selectQuestionById(id:number) {
     return question;
 }
 
+async function selectNotAnswered() {
+  
+  const questionsNotAnswered = await questionRepository.selectNotAnswered();
+  if (questionsNotAnswered.length === 0) {
+      throw new NotFoundError();
+  }
+  return questionsNotAnswered;
+
+}
+
 export {
     postQuestion,
-    selectQuestionById
+  selectQuestionById,
+    selectNotAnswered
 }

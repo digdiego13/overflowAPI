@@ -41,4 +41,19 @@ async function getQuestions(req: Request, res: Response) {
     }
 }
 
-export {postQuestion, getQuestions}
+async function getNotAnswered(req: Request, res: Response) {
+    
+    try {
+        const question= await questionsServices.selectNotAnswered()
+        
+        return res.status(200).send(question);
+    }
+    catch (error: any) {
+        if (error.name === "NotFoundError") {
+            return res.status(httpStatusCode.NOT_FOUND).send(error.message);
+        }
+        return res.sendStatus(httpStatusCode.SERVER_ERROR)
+    }
+}
+
+export {postQuestion, getQuestions, getNotAnswered}

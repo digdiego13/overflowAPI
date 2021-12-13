@@ -10,6 +10,7 @@ app.use(express.json());
 app.post('/users', signUp)
 app.post('/questions', questionController.postQuestion);
 app.get('/questions/:id', questionController.getQuestions)
+app.get('/questions', questionController.getNotAnswered)
 //app.use(userRouter);
 
 export default app;
