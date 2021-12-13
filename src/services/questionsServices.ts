@@ -1,8 +1,7 @@
-import { boolean } from "joi";
-import connection from "../database/database";
+
 import ConflictError from "../errors/conflictError";
 import NotFoundError from "../errors/notFoundError";
-import { Question, QuestionAnswer } from "../interfaces/questionsInterfaces";
+import { Question, QuestionAnswer, QuestionDB } from "../interfaces/questionsInterfaces";
 import * as questionRepository from '../repositories/questionsRepository'
 import * as userRepository from '../repositories/userRepository'
 
@@ -34,7 +33,7 @@ async function selectQuestionById(id:number) {
     return question;
 }
 
-async function selectNotAnswered() {
+async function selectNotAnswered(): Promise<QuestionDB[]> {
   
   const questionsNotAnswered = await questionRepository.selectNotAnswered();
   if (questionsNotAnswered.length === 0) {
@@ -67,7 +66,7 @@ async function postQuestionAnswer({answer, questionId, token}: QuestionAnswer): 
 
 export {
     postQuestion,
-  selectQuestionById,
-  selectNotAnswered,
+    selectQuestionById,
+    selectNotAnswered,
     postQuestionAnswer
 }

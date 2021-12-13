@@ -1,7 +1,6 @@
-import connection from '../database/database'
-import { Question, QuestionAnswer, QuestionDB } from '../interfaces/questionsInterfaces'
-import dayjs from 'dayjs'
-import { string } from 'joi'
+import connection from '../database/database';
+import { Question, QuestionAnswer, QuestionDB } from '../interfaces/questionsInterfaces';
+import dayjs from 'dayjs';
 
 async function selectQuestion({ question, classroom, student }: Question): Promise<QuestionDB> {
     console.log("Chgou no rep")
@@ -27,7 +26,7 @@ async function selectQuestionById(id:number): Promise<QuestionDB> {
     return questionInfo.rows[0];
 }
 
-async function selectNotAnswered() {
+async function selectNotAnswered(): Promise<QuestionDB[]>{
     const questionsList = await connection.query(`
     SELECT id, question, student, classroom, "submitAt" FROM questions WHERE answered = 'false';
     `)
