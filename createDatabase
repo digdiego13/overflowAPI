@@ -1,7 +1,7 @@
 CREATE TABLE "users" (
 	"id" serial NOT NULL,
 	"name" varchar(255) NOT NULL,
-	"class" varchar(255) NOT NULL,
+	"classroom" varchar(255) NOT NULL,
 	"token" varchar(255) NOT NULL,
 	CONSTRAINT "users_pk" PRIMARY KEY ("id")
 ) WITH (
