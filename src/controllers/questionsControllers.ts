@@ -1,11 +1,11 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import httpStatusCode from '../enums/httpStatusCode';
 import { Question, QuestionAnswer } from '../interfaces/questionsInterfaces';
 import answerSchema from '../schemas/answerSchema';
 import questionSchema from '../schemas/questionSchema';
 import * as questionsServices from '../services/questionsServices'
 
-async function postQuestion(req: Request, res: Response) {
+async function postQuestion(req: Request, res: Response, next: NextFunction) {
     
     const { question, student, classroom, tags }: Question = req.body;
     const isCorrectBody = questionSchema.validate(req.body);
@@ -18,14 +18,11 @@ async function postQuestion(req: Request, res: Response) {
         return res.status(201).send({id: questionId});
     }
     catch (error: any) {
-        if (error.name === "ConflictError") {
-            return res.status(httpStatusCode.CONFLICT).send(error.message);
-        }
-        return res.sendStatus(httpStatusCode.SERVER_ERROR)
+        return next(error);
     }
 }
 
-async function getQuestions(req: Request, res: Response) {
+async function getQuestions(req: Request, res: Response, next: NextFunction) {
     
     const { id } = req.params;
   const questionId = Number(id);
@@ -35,14 +32,11 @@ async function getQuestions(req: Request, res: Response) {
         return res.status(200).send(question);
     }
     catch (error: any) {
-        if (error.name === "NotFoundError") {
-            return res.status(httpStatusCode.NOT_FOUND).send(error.message);
-        }
-        return res.sendStatus(httpStatusCode.SERVER_ERROR)
+        return next(error);
     }
 }
 
-async function getNotAnswered(req: Request, res: Response) {
+async function getNotAnswered(req: Request, res: Response, next:NextFunction) {
     
     try {
         const question= await questionsServices.selectNotAnswered()
@@ -50,14 +44,11 @@ async function getNotAnswered(req: Request, res: Response) {
         return res.status(200).send(question);
     }
     catch (error: any) {
-        if (error.name === "NotFoundError") {
-            return res.status(httpStatusCode.NOT_FOUND).send(error.message);
-        }
-        return res.sendStatus(httpStatusCode.SERVER_ERROR)
+        return next(error);
     }
 }
 
-async function postQuestionAnswer(req: Request, res: Response) {
+async function postQuestionAnswer(req: Request, res: Response, next: NextFunction) {
     
     const { authorization } = req.headers;
     const token = authorization?.replace('Bearer ', '');
@@ -74,13 +65,7 @@ async function postQuestionAnswer(req: Request, res: Response) {
         return res.status(201).send(answerQuestion);
     }
     catch (error: any) {
-        if (error.name === "ConflictError") {
-            return res.status(httpStatusCode.CONFLICT).send(error.message);
-        }
-        if (error.name === "NotFoundError") {
-            return res.status(httpStatusCode.NOT_FOUND).send(error.message);
-        }
-        return res.sendStatus(httpStatusCode.SERVER_ERROR)
+        return next(error);
     }
 }
 

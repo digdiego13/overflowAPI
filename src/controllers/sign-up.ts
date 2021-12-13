@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { User } from '../interfaces/userInterfaces';
 import signUpSchema from '../schemas/signUpSchema';
 import * as userServices from '../services/userServices';
 import httpStatusCode from '../enums/httpStatusCode';
-async function signUp(req: Request, res: Response) {
+async function signUp(req: Request, res: Response, next: NextFunction) {
     
     const {name, classroom}: User = req.body;
     const isCorrectBody = signUpSchema.validate(req.body);
@@ -16,10 +16,7 @@ async function signUp(req: Request, res: Response) {
         return res.status(201).send(userToken);
     }
     catch (error: any) {
-        if (error.name === "ConflictError") {
-            return res.status(httpStatusCode.CONFLICT).send(error.message);
-        }
-        return res.sendStatus(httpStatusCode.SERVER_ERROR)
+        return next(error);
     }
 }
 
