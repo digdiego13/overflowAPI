@@ -4,11 +4,8 @@
   "description": "To get a local copy up and running follow these simple steps.",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test npx jest -i",
-    "test:watch": "NODE_ENV=test npx jest --watchAll",
-    "start:dev": "npx nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node src/server.ts\"",
-    "start": "NODE_ENV=prod npx nodemon server.js",
-    "tempstart": "NODE_ENV=dev npx ts-node server.ts",
+    "dev": "NODE_ENV=dev npx nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node ./server.ts\"",
+    "start": "NODE_ENV=prod npx nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node ./server.ts\"",
     "deploy": "git push heroku"
   },
   "keywords": [],
