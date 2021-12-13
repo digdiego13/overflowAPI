@@ -1,4 +1,5 @@
 import ConflictError from "../errors/conflictError";
+import NotFoundError from "../errors/notFoundError";
 import { Question } from "../interfaces/questionsInterfaces";
 import * as questionRepository from '../repositories/questionsRepository'
 
@@ -13,6 +14,24 @@ async function postQuestion({question, student, classroom, tags}:Question): Prom
     return questionId;
 }
 
+async function selectQuestionById(id:number) {
+    const question = await questionRepository.selectQuestionById(id);
+
+  if (!question) {
+    throw new NotFoundError();
+  }
+    delete question.id;
+    if (!question.answered) {
+    return question;
+    }
+    delete question.answeredAt;
+    delete question.answer;
+    delete question.answeredBy;
+
+    return question;
+}
+
 export {
-    postQuestion
+    postQuestion,
+    selectQuestionById
 }

@@ -8,7 +8,8 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/users', signUp)
-app.post('/questions', questionController.postQuestion)
+app.post('/questions', questionController.postQuestion);
+app.get('/questions/:id', questionController.getQuestions)
 //app.use(userRouter);
 
 export default app;

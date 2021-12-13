@@ -11,7 +11,6 @@ async function selectQuestion({ question, classroom, student }: Question): Promi
 }
 
 async function InsertQuestion({ question, classroom, student, tags }: Question): Promise<QuestionDB> {
-    console.log('chegou no inser')
     const today = dayjs().format('YYYY/MM/DD');
     console.log(today)
     const questionInfo = await connection.query(`
@@ -21,7 +20,15 @@ async function InsertQuestion({ question, classroom, student, tags }: Question):
     return questionInfo.rows[0];
 }
 
+async function selectQuestionById(id:number): Promise<QuestionDB> {
+    const questionInfo = await connection.query(`
+    SELECT * FROM questions WHERE id = $1;
+    `, [id])
+    return questionInfo.rows[0];
+}
+
 export {
     selectQuestion,
-    InsertQuestion
+    InsertQuestion,
+    selectQuestionById
 }

@@ -24,4 +24,21 @@ async function postQuestion(req: Request, res: Response) {
     }
 }
 
-export {postQuestion}
+async function getQuestions(req: Request, res: Response) {
+    
+    const { id } = req.params;
+  const questionId = Number(id);
+    try {
+        const question= await questionsServices.selectQuestionById(questionId)
+        
+        return res.status(200).send(question);
+    }
+    catch (error: any) {
+        if (error.name === "NotFoundError") {
+            return res.status(httpStatusCode.NOT_FOUND).send(error.message);
+        }
+        return res.sendStatus(httpStatusCode.SERVER_ERROR)
+    }
+}
+
+export {postQuestion, getQuestions}
