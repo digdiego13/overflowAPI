@@ -7,7 +7,12 @@ import ConflictError from '../errors/conflictError';
 import httpStatusCode from '../enums/httpStatusCode';
 import UnauthorizedError from '../errors/unauthorizedError';
 
-const middlewareError = async (error: any, req: Request, res: Response, next: NextFunction) => {
+const middlewareError = async (
+  error: any,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   if (error instanceof RequestError) {
     return res.status(httpStatusCode.BAD_REQUEST).send(error.message);
   }

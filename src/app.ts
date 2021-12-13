@@ -10,7 +10,6 @@ app.use(express.json());
 
 app.use('/questions', questionsRouter);
 app.use('/users', userRouter);
-app.use(middlewareError)
-
+app.use(middlewareError);
 
 export default app;
