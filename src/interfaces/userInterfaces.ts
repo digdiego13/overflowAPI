@@ -1,16 +1,11 @@
-
 interface User {
-    name: string,
-    classroom: string,
-    token?: string
+  name: string;
+  classroom: string;
+  token?: string;
 }
 
 interface UserDB extends User {
-    id: number,
-    
+  id: number;
 }
 
-export {
-    User,
-    UserDB
-}
+export { User, UserDB };
